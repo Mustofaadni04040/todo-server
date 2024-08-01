@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
+require("dotenv").config();
 
 const client = require("./connection");
 
@@ -11,6 +12,10 @@ app.use(bodyParser.json());
 
 app.listen(port, () =>
   console.log(`Server running on port: http://localhost:${port}`)
+);
+
+console.log(
+  process.env.PASSWORD_POSTGRES ? "password set" : "password not set"
 );
 
 client.connect((err) => {
@@ -39,7 +44,7 @@ app.post("/todos", (req, res) => {
       if (!err) {
         res.send("Insert Success");
       } else {
-        res.send(err.message);
+        res.status(500).send(err.message);
       }
     }
   );
@@ -53,7 +58,7 @@ app.put("/todos/:id", (req, res) => {
       if (!err) {
         res.send("Update Success");
       } else {
-        res.send(err.message);
+        res.status(500).send(err.message);
       }
     }
   );
@@ -61,7 +66,13 @@ app.put("/todos/:id", (req, res) => {
 
 app.delete("/todos/:id", (req, res) => {
   client.query(
-    `delete from todo where id = ${req.params.id}`,
-    (err, result) => {}
+    `delete from todos where id = '${req.params.id}'`,
+    (err, result) => {
+      if (!err) {
+        res.send("Delete Success");
+      } else {
+        res.status(500).send(err.message);
+      }
+    }
   );
 });
