@@ -11,6 +11,9 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "build": "webpack",
-    "prod": "node dist/app.js"
+    "prod": "node dist/final.js"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
   }
 }
