@@ -4,8 +4,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: process.env.PASSWORD_POSTGRES
+      POSTGRES_USER: process.env.USERNAME_POSTGRES
       POSTGRES_DB: todo
     volumes:
       - postgres:/var/lib/postgresql/data
